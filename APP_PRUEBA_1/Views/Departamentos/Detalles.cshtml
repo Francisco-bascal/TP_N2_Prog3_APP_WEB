@@ -1,19 +1,5 @@
 ﻿@model APP_PRUEBA_1.Models.Departamento
 
-@if (TempData["Errores"] != null)
-{
-    var errores = TempData["Errores"].ToString().Split("|");
-
-    <div class="alert alert-danger">
-        <ul>
-            @foreach (var error in errores)
-            {
-                <li>@error</li>
-            }
-        </ul>
-    </div>
-}
-
 <h2 class="text-center mb-3">Detalles</h2>
 
 <div class="d-flex flex-column justify-content-center align-items-center">

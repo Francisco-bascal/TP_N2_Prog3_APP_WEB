@@ -92,6 +92,7 @@ namespace APP_PRUEBA_1.Controllers
                     TempData["Errores"] = string.Join("|", resultado.Errors);
                     return View("Create", departamento);
                 }
+                TempData["Exito"] = "Departamento creado exitosamente";
                 return RedirectToAction("GetDepartamentos");
             }
             catch (Exception ex) 
@@ -134,6 +135,7 @@ namespace APP_PRUEBA_1.Controllers
                     TempData["Errores"] = string.Join("|", resultado.Errors);
                     return View(departamento);
                 }
+                TempData["Exito"] = "Departamento editado exitosamente";
                 return RedirectToAction("GetDepartamentos");
             }
             catch (Exception ex) 
@@ -155,6 +157,7 @@ namespace APP_PRUEBA_1.Controllers
                     TempData["Errores"] = string.Join("|", resultado.Errors);
                     return RedirectToAction("GetDepartamentos");
                 }
+                TempData["Exito"] = "Departamento eliminado exitosamente";
                 return RedirectToAction("GetDepartamentos");
             }
             catch (Exception ex) 

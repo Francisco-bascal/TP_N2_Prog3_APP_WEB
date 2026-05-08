@@ -14,6 +14,15 @@
     </div>
 }
 
+@if (TempData["Exito"] is string exito)
+{
+    <div class="alert alert-success">
+        <ul>
+            @exito
+        </ul>
+    </div>
+}
+
 <h2 class="text-center mb-3">Editar Empleado</h2>
 
 <div class="container d-flex justify-content-center align-items-center">

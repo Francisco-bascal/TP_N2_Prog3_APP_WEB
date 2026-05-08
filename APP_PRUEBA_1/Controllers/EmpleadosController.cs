@@ -41,13 +41,11 @@ namespace APP_PRUEBA_1.Controllers
             try
             {
                 var resultado = await _servicio.GetEmpleadoByIdAsync(id);
-
                 if (!resultado.IsValid)
                 {
                     TempData["Errores"] = string.Join("|", resultado.Errors); //para mostrar los errores en un alert 
                     return RedirectToAction("GetEmpleados");
                 }
-
                 return View("Detalles", resultado.Value);
             }
             catch (Exception ex) 
@@ -98,13 +96,12 @@ namespace APP_PRUEBA_1.Controllers
             try
             {
                 var resultado = await _servicio.PostEmpleadoAsync(empleado);
-
                 if (!resultado.IsValid) 
                 {
                     TempData["Errores"] = string.Join("|", resultado.Errors);
                     return View("Create", empleado);
                 }
-
+                TempData["Exito"] = "Empleado creado correctamente";
                 return RedirectToAction("GetEmpleados");
             }
             catch (DbUpdateException ex)
@@ -127,7 +124,7 @@ namespace APP_PRUEBA_1.Controllers
                 var departamentos = await _servicioDepartamento.GetDepartamentosAsync();
                 var resultado = await _servicio.GetEmpleadoByIdAsync(id);
                 
-                if (!resultado.IsValid)
+                if (!resultado.IsValid) //no debería fallar al ser un GetById pero se implementa de todos modos por seguridad
                 {
                     TempData["Errores"] = string.Join("|", resultado.Errors);
                     return RedirectToAction("GetEmpleados");
@@ -149,17 +146,16 @@ namespace APP_PRUEBA_1.Controllers
             try
             {
                 var resultado = await _servicio.PutEmpleadoAsync(empleado);
-
                 if (!resultado.IsValid)
                 {
                     TempData["Errores"] = string.Join("|", resultado.Errors);
 
-                    var departamentos = await _servicioDepartamento.GetDepartamentosAsync();
+                    var departamentos = await _servicioDepartamento.GetDepartamentosAsync(); //se vuelve a rellenar el viewbag
                     ViewBag.Departamentos = new SelectList(departamentos, "IdDepartamento", "Nombre", empleado.IdDepartamento);
                     
                     return View(empleado);
                 }
-
+                TempData["Exito"] = "Empleado editado exitosamente";
                 return RedirectToAction("GetEmpleados");
             }
             catch (Exception ex)
@@ -173,25 +169,25 @@ namespace APP_PRUEBA_1.Controllers
             }
         }
 
-        //[HttpDelete] no se Puede en MVC
         [HttpPost]
         public async Task<IActionResult> DeleteEmpleadoAsync(int id) 
         {
             try
             {
                 var resultado = await _servicio.DeleteEmpleadoAsync(id);
-
                 if (!resultado.IsValid)
                 {
                     TempData["Errores"] = string.Join("|", resultado.Errors);
+                    return RedirectToAction("GetEmpleados");
                 }
+                TempData["Exito"] = "Empleado eliminado exitosamente";
+                return RedirectToAction("GetEmpleados");
             }
             catch (Exception ex) 
             {
                 TempData["Errores"] = ex.Message;
+                return RedirectToAction("GetEmpleados");
             }
-
-            return RedirectToAction("GetEmpleados");
         }
     }
 }

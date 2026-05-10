@@ -14,6 +14,11 @@ namespace APP_PRUEBA_1.Controllers
             _servicio = servicio;
         }
 
+        public IActionResult Reportes() 
+        {
+            return View();
+        }
+
         public async Task<IActionResult> EmpleadosPorDepartamento() 
         {
             Result<IEnumerable<EmpleadosPorDepartamentoVM>> resultado;
@@ -23,14 +28,34 @@ namespace APP_PRUEBA_1.Controllers
                 if (!resultado.IsValid)
                 {
                     TempData["Errores"] = string.Join("|", resultado.Errors);
-                    return RedirectToAction("GetEmpleados");
+                    return RedirectToAction("Reportes");
                 }
                 return View(resultado.Value);
             }
             catch (Exception ex) 
             {
                 TempData["Errores"] = ex.Message;
-                return RedirectToAction("GetEmpleados");
+                return RedirectToAction("Reportes");
+            }
+        }
+
+        public async Task<IActionResult> EmpleadosAgrupadosPorDepartamento() 
+        {
+            Result<IEnumerable<EmpleadosAgrupadosPorDepartamentoVM>> resultado;
+            try
+            {
+                resultado = await _servicio.GetEmpleadosAgrupadosPorDepartamentoAsync();
+                if (!resultado.IsValid) 
+                {
+                    TempData["Errores"] = string.Join("|", resultado.Errors);
+                    return RedirectToAction("Reportes");
+                }
+                return View(resultado.Value);
+            }
+            catch (Exception ex) 
+            {
+                TempData["Errores"] = ex.Message;
+                return RedirectToAction("Reportes");
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using APP_PRUEBA_1.Repositorios;
 using APP_PRUEBA_1.Servicios.Validation;
 using APP_PRUEBA_1.Models.ViewModels;
+using APP_PRUEBA_1.Models;
 
 namespace APP_PRUEBA_1.Servicios
 {
@@ -22,6 +23,19 @@ namespace APP_PRUEBA_1.Servicios
 
             });
             return Result<IEnumerable<EmpleadosPorDepartamentoVM>>.Success(empleadosRetornar);
+        }
+
+        public async Task<Result<IEnumerable<EmpleadosAgrupadosPorDepartamentoVM>>> GetEmpleadosAgrupadosPorDepartamentoAsync() 
+        {
+            var empleadosDesignar = await _repo.GetEmpleadosAsync();
+            var empleadosRetornar = empleadosDesignar.GroupBy(e => e.IdDepartamentoNavigation.Nombre).Select(g => new EmpleadosAgrupadosPorDepartamentoVM
+            {
+                NombreDepartamento = g.Key,
+                Empleados = g.OrderBy(e => e.Apellido).ThenBy(e => e.Nombre).ToList()
+            })
+            .OrderBy(g => g.NombreDepartamento).ToList();
+
+            return Result<IEnumerable<EmpleadosAgrupadosPorDepartamentoVM>>.Success(empleadosRetornar);
         }
     }
 }

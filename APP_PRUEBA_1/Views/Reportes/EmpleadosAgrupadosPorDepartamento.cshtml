@@ -1,0 +1,24 @@
+﻿@model List<APP_PRUEBA_1.Models.ViewModels.EmpleadosAgrupadosPorDepartamentoVM>
+
+@foreach (var grupo in Model)
+{
+    <h3 class="text-center">@grupo.NombreDepartamento</h3>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark text-light">
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var empleado in grupo.Empleados)
+            {
+                <tr>
+                    <td>@empleado.Nombre</td>
+                    <td>@empleado.Apellido</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

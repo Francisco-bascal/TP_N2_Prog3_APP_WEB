@@ -6,5 +6,6 @@ namespace APP_PRUEBA_1.Servicios
     public interface IReporteService
     {
         Task<Result<IEnumerable<EmpleadosPorDepartamentoVM>>> GetEmpleadosPorDepartamentoAsync();
+        Task<Result<IEnumerable<EmpleadosAgrupadosPorDepartamentoVM>>> GetEmpleadosAgrupadosPorDepartamentoAsync();
     }
 }
